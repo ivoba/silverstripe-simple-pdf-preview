@@ -1,0 +1,13 @@
+---
+Name: simple-pdf-preview
+---
+
+SimplePdfPreviewImageExtension:
+    dependencies:
+      generator: %$SimplePdfPreviewImagickGenerator
+      folderToSave: "asssets/Uploads/"
+      imagePrefix: "pdf-preview"
+
+Injector:
+  SimplePdfPreviewImagickGenerator:
+    class: SimplePdfPreviewImagickGenerator
