@@ -21,7 +21,7 @@ Via Composer
 ```
 
 ## Requirements
-- currently only testes in SilverStripe 3.1
+- currently only tested in SilverStripe 3.1
 - you will need the Imagick extension.
 
 
@@ -35,7 +35,7 @@ If you call this method on a non-pdf file, null will be returned.
 ## Config
 You can override all Params in your config.yml.  
 
-``` json
+``` yaml
 SimplePdfPreviewImageExtension:
   dependencies:
     generator: %$SimplePdfPreviewExecGenerator
@@ -54,6 +54,7 @@ This could be the case, when we you dont want to use Imagick but ImageMagick dir
 
 This extension is "simple" because it will just create a loose Image object.  
 Mapping happens over the filename. So its rather risky, but sufficient for most cases.  
+
 Somebody please make a better PDF extension, with a PDF File type, a PDF FileField and a preview image generation after upload. :)  
 
 ## License
