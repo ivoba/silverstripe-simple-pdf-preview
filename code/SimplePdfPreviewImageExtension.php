@@ -7,6 +7,7 @@ class SimplePdfPreviewImageExtension extends DataExtension
     private $folderToSave;
     private $imagePrefix;
 
+//@Todo cant get Silverstripe DI to work with constructor injection
 //    function __construct(SimplePdfPreviewGeneratorInterface $generator,
 //                         $folderToSave = null,
 //                         $imagePrefix = null,
@@ -18,36 +19,26 @@ class SimplePdfPreviewImageExtension extends DataExtension
 //        $this->savePath = $savePath;
 //    }
 
-
-    /*
-     * for different Image generation engine
-     * we could use $this->extend('generatePreviewImage', $foo);
-     *
-     * @Todo actually preview generation could happen at upload time
-     */
-
-    public function getPreviewImage()
+    public function getPdfPreviewImage()
     {
         $pdfFile = Director::getAbsFile($this->owner->getFileName());
         $pathInfo = pathinfo($pdfFile);
         if (strtolower($pathInfo['extension']) != 'pdf') {
-            //@Todo if dev then exception?
-            //prod fail silently
+            //@Todo if dev then exception? else fail silently
             return null;
         }
         $fileName = $pathInfo['filename'];
 
         $savePath = __DIR__ . '/../../../';
-        $saveImage = $this->imagePrefix . $fileName . '.jpg';
+        $saveImage = $this->imagePrefix . '-' . $fileName . '.jpg';
 
         // Fix illegal characters
         $filter = FileNameFilter::create();
         $saveImage = $filter->filter($saveImage);
         $saveTo = $savePath . $this->folderToSave . $saveImage;
+
         $image = DataObject::get_one('Image', "`Name` = '{$saveImage}'");
-        _SDG($this->folderToSave);
-        _SD($this->imagePrefix);
-        _SD($image);
+
         if (!$image) {
             $folderObject = DataObject::get_one("Folder", "`Filename` = '{$this->folderToSave}'");
             if ($folderObject) {
@@ -72,7 +63,7 @@ class SimplePdfPreviewImageExtension extends DataExtension
     }
 
     /**
-     * @param null $folderToSave
+     * @param $folderToSave
      */
     public function setFolderToSave($folderToSave)
     {
@@ -82,13 +73,13 @@ class SimplePdfPreviewImageExtension extends DataExtension
     /**
      * @param \SimplePdfPreviewGeneratorInterface $generator
      */
-    public function setGenerator($generator)
+    public function setGenerator(\SimplePdfPreviewGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
 
     /**
-     * @param null $imagePrefix
+     * @param $imagePrefix
      */
     public function setImagePrefix($imagePrefix)
     {

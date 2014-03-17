@@ -1,6 +1,6 @@
 <?php
 
-class SimplePdfPreviewImagickGenerator
+class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInterface
 {
 
     public function generatePreviewImage($pdfFile, $saveTo)
