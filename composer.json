@@ -1,6 +1,14 @@
 {
     "name": "ivoba/silverstripe-simple-pdf-preview",
-    "description": "",
+    "description": "Simple Pdf Preview Extension for SilverStripe CMS",
+    "keywords": ["silverstripe", "cms", "pdf", "pdf preview"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivo Bathke",
+            "email": "ivo.bathke@gmail.com"
+        }
+    ],
     "require": {
         "php": ">=5.3.2",
         "ext-imagick": "*",
