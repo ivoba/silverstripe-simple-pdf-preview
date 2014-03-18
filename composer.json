@@ -3,6 +3,7 @@
     "description": "Simple Pdf Preview Extension for SilverStripe CMS",
     "keywords": ["silverstripe", "cms", "pdf", "pdf preview"],
     "license": "MIT",
+    "type": "silverstripe-module",
     "authors": [
         {
             "name": "Ivo Bathke",
