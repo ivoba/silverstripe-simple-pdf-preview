@@ -29,7 +29,7 @@ class SimplePdfPreviewImageExtension extends DataExtension
         }
         $fileName = $pathInfo['filename'];
 
-        $savePath = __DIR__ . '/../../../';
+        $savePath = __DIR__ . '/../../';
         $saveImage = $this->imagePrefix . '-' . $fileName . '.jpg';
 
         // Fix illegal characters

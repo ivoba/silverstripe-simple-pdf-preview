@@ -19,6 +19,7 @@ class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInter
             //save image file
             $img->writeImages($saveTo, false);
         } catch (\Exception $e) {
+            error_log($e->getMessage());
             return false;
         }
 
