@@ -57,6 +57,8 @@ class SimplePdfPreviewImageExtension extends DataExtension
             }
             if ($cacheInValid) {
                 $this->generator->generatePreviewImage($pdfFile, $saveTo);
+                $image->setName($saveImage);
+                $image->write(false, false, true);
             }
         }
         return $image;
