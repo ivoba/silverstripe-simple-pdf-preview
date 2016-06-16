@@ -9,7 +9,8 @@ class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInter
             $img = new imagick(Director::getAbsFile($pdfFile) . "[0]"); //we only take first page
 
             // -flatten option, this is necessary for images with transparency, it will produce white background for transparent regions
-            $img = $img->flattenImages();
+            $img->setImageAlphaChannel(11);//Imagick::ALPHACHANNEL_REMOVE has been added in 3.2.0b2
+            $img->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
 
             //set new format
             //@Todo detect format from filename
