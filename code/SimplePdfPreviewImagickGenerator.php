@@ -10,7 +10,7 @@ class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInter
 
             // -flatten option, this is necessary for images with transparency, it will produce white background for transparent regions
             $img->setImageAlphaChannel(11);//Imagick::ALPHACHANNEL_REMOVE has been added in 3.2.0b2
-            $img->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            $img->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
 
             //set new format
             //@Todo detect format from filename
