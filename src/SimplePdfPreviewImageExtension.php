@@ -2,6 +2,7 @@
 
 namespace Ivoba\SilverStripe\SimplePdfPreview;
 
+use SilverStripe\Assets\Folder;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Control\Director;
 use SilverStripe\ORM\DataObject;
@@ -38,7 +39,6 @@ class SimplePdfPreviewImageExtension extends DataExtension
         }
         $fileName = $pathInfo['filename'];
 
-        $savePath  = __DIR__.'/../../';
         $saveImage = $this->imagePrefix.'-'.$fileName.'.jpg';
 
         // Fix illegal characters
@@ -87,9 +87,9 @@ class SimplePdfPreviewImageExtension extends DataExtension
     }
 
     /**
-     * @param \SimplePdfPreviewGeneratorInterface $generator
+     * @param SimplePdfPreviewGeneratorInterface $generator
      */
-    public function setGenerator(\SimplePdfPreviewGeneratorInterface $generator)
+    public function setGenerator(SimplePdfPreviewGeneratorInterface $generator)
     {
         $this->generator = $generator;
     }
