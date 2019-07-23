@@ -5,7 +5,7 @@ Simple Pdf Preview Extension for SilverStripe CMS
 
 [![Total Downloads](https://poser.pugx.org/ivoba/silverstripe-simple-pdf-preview/downloads.png)](https://packagist.org/packages/ivoba/silverstripe-simple-pdf-preview)
 
-Create Jpg Preview Images of Pdf files on the fly.  
+Create Jpg Preview Images of Pdf files on the fly.
 
 
 ## Install
@@ -15,28 +15,29 @@ Via Composer
 ``` json
 {
     "require": {
-        "ivoba/silverstripe-simple-pdf-preview": "~1.0"
+        "ivoba/silverstripe-simple-pdf-preview": "~2.0"
     }
 }
 ```
 
 ## Requirements
-- currently only tested in SilverStripe 3.1
+- SilverStripe 4
 - you will need the Imagick extension.
 
+For SilverStripe 3 use v1.
 
 ## Usage
-In your template just call ```$Pdf.getPdfPreviewImage``` where $Pdf is your File Object, containing a pdf file.  
-You then have a normal Image object, on which you can apply all methods you usually can apply on an image in SilverStripe.  
-F.e.: ```$Pdf.getPdfPreviewImage.CroppedImage(60,60)```  
+In your template just call ```$Pdf.getPdfPreviewImage``` where $Pdf is your File Object, containing a pdf file.
+You then have a normal Image object, on which you can apply all methods you usually can apply on an image in SilverStripe.
+F.e.: ```$Pdf.getPdfPreviewImage.CroppedImage(60,60)```
 
-If you call this method on a non-pdf file, null will be returned.  
+If you call this method on a non-pdf file, null will be returned.
 
 ## Config
-You can override all Params in your config.yml.  
+You can override all Params in your config.yml.
 
 ``` yaml
-SimplePdfPreviewImageExtension:
+Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImageExtension:
   dependencies:
     generator: %$SimplePdfPreviewExecGenerator
     folderToSave: "assets/someOtherFolder/"
@@ -44,18 +45,18 @@ SimplePdfPreviewImageExtension:
 
 Injector:
   SimplePdfPreviewExecGenerator:
-    class: SimplePdfPreviewExecGenerator
+    class: Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewExecGenerator
 ```
-You can create your own Generator class, simply implement ```SimplePdfPreviewGeneratorInterface```.  
+You can create your own Generator class, simply implement ```SimplePdfPreviewGeneratorInterface```.
 This could be the case, when we you dont want to use Imagick but ImageMagick directly via exec.
 
 
 ## Disclaimer
 
-This extension is "simple" because it will just create a loose Image object.  
-Mapping happens over the filename. So its rather risky, but sufficient for most cases.  
+This extension is "simple" because it will just create a loose Image object.
+Mapping happens over the filename. So its rather risky, but sufficient for most cases.
 
-Somebody please make a better PDF extension, with a PDF File type, a PDF FileField and a preview image generation after upload. :)  
+Somebody please make a better PDF extension, with a PDF File type, a PDF FileField and a preview image generation after upload. :)
 
 ## License
 

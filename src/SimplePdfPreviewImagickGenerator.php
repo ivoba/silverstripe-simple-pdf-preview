@@ -1,5 +1,9 @@
 <?php
 
+namespace Ivoba\SilverStripe\SimplePdfPreview;
+
+use SilverStripe\Control\Director;
+
 class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInterface
 {
 
@@ -27,4 +31,4 @@ class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInter
         return true;
     }
 
-} 
+}

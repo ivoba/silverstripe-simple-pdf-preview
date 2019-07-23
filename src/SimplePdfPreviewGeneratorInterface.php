@@ -1,5 +1,7 @@
 <?php
 
+namespace Ivoba\SilverStripe\SimplePdfPreview;
+
 interface SimplePdfPreviewGeneratorInterface
 {
     /**
@@ -8,4 +10,4 @@ interface SimplePdfPreviewGeneratorInterface
      * @return boolean
      */
     public function generatePreviewImage($pdfFile, $saveTo);
-} 
+}

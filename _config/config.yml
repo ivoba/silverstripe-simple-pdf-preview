@@ -2,16 +2,16 @@
 Name: simple-pdf-preview
 ---
 
-File:
+SilverStripe\Assets\File:
   extensions:
-    - SimplePdfPreviewImageExtension
+    - Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImageExtension
 
-SimplePdfPreviewImageExtension:
+Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImageExtension:
     dependencies:
       generator: %$SimplePdfPreviewImagickGenerator
-      folderToSave: "assets/Uploads/"
+      folderToSave: "Uploads"
       imagePrefix: "pdf-preview"
 
 Injector:
   SimplePdfPreviewImagickGenerator:
-    class: SimplePdfPreviewImagickGenerator
+    class: Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImagickGenerator
