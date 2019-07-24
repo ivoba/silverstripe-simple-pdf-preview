@@ -9,11 +9,11 @@ cache:
 matrix:
     include:
         - php: 7.1
-          env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_COVERAGE_TEST=1
+          env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_COVERAGE_TEST=1
         - php: 7.2
-          env: DB=MYSQL INSTALLER_VERSION=4.4.x-dev PHPUNIT_TEST=1
+          env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_TEST=1
         - php: 7.3
-          env: DB=MYSQL INSTALLER_VERSION=4.x-dev PHPUNIT_TEST=1
+          env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_TEST=1
 
 before_script:
     # Init PHP
@@ -27,7 +27,6 @@ before_script:
     - composer validate
     - echo $INSTALLER_VERSION
     - composer require --prefer-source --no-update silverstripe/installer:$INSTALLER_VERSION
-    - if [[ $DB == PGSQL ]]; then composer require --no-update silverstripe/postgresql:2.0.x-dev; fi
     - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
 
 script:
