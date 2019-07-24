@@ -19,6 +19,7 @@ before_script:
     # Init PHP
     - phpenv rehash
     - phpenv config-rm xdebug.ini
+    - pecl install imagick
 
     # Install composer dependencies
     - composer validate
