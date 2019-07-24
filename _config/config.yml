@@ -8,10 +8,10 @@ SilverStripe\Assets\File:
 
 Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImageExtension:
     dependencies:
-      generator: %$SimplePdfPreviewImagickGenerator
+      generator: %$Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImagickGenerator
       folderToSave: "Uploads"
       imagePrefix: "pdf-preview"
 
 Injector:
-  SimplePdfPreviewImagickGenerator:
+  Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImagickGenerator:
     class: Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImagickGenerator

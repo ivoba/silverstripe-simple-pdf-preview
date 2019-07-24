@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  php:
+    build: docker/php71-dev
+    container_name: ss-pdf-7.1
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    volumes:
+        - .:/app
+
+  db:
+    container_name: ss-pdf-mysql
+    image: mysql/mysql-server:5.7
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ss
+      MYSQL_PASSWORD: ss
+      MYSQL_DATABASE: ss

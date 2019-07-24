@@ -50,6 +50,15 @@ Injector:
 You can create your own Generator class, simply implement ```SimplePdfPreviewGeneratorInterface```.
 This could be the case, when we you dont want to use Imagick but ImageMagick directly via exec.
 
+## Tests
+
+start the docker container:
+
+    docker-compose run bash
+
+inside the container run:
+
+    SS_DATABASE_NAME=ss SS_DATABASE_PASSWORD=ss SS_DATABASE_SERVER=db SS_DATABASE_USERNAME=ss vendor/bin/phpunit
 
 ## Disclaimer
 

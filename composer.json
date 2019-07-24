@@ -1,7 +1,12 @@
 {
     "name": "ivoba/silverstripe-simple-pdf-preview",
     "description": "Simple Pdf Preview Extension for SilverStripe CMS",
-    "keywords": ["silverstripe", "cms", "pdf", "pdf preview"],
+    "keywords": [
+        "silverstripe",
+        "cms",
+        "pdf",
+        "pdf preview"
+    ],
     "license": "MIT",
     "type": "silverstripe-vendormodule",
     "authors": [
@@ -13,8 +18,10 @@
     "require": {
         "php": ">=7.1.0",
         "ext-imagick": "*",
-        "silverstripe/framework": "^4",
-        "silverstripe/cms": "^4"
+        "silverstripe/framework": "^4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
     },
     "autoload": {
         "psr-4": {
