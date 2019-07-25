@@ -1,10 +1,14 @@
-sudo: false
+sudo: true
 
 language: php
 
 cache:
     directories:
         - $HOME/.composer/cache/files
+
+env:
+  global:
+     - MAGICK_CONFIGURE_PATH=$HOME/imagemagick
 
 matrix:
     include:
@@ -16,6 +20,13 @@ matrix:
           env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_TEST=1
 
 before_script:
+    # Allow imagemagick to read PDF files for the scribing question tests.
+    - mkdir $HOME/imagemagick
+    - echo $MAGICK_CONFIGURE_PATH
+    - echo '<policymap>' > $HOME/imagemagick/policy.xml
+    - echo '<policy domain="coder" rights="read|write" pattern="{PDF}" />' >> $HOME/imagemagick/policy.xml
+    - echo '</policymap>' >> $HOME/imagemagick/policy.xml
+    - sudo rm /etc/ImageMagick-6/policy.xml
     # Init PHP
     - phpenv rehash
     - phpenv config-rm xdebug.ini

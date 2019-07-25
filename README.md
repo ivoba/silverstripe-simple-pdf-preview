@@ -60,11 +60,6 @@ inside the container run:
 
     SS_DATABASE_NAME=ss SS_DATABASE_PASSWORD=ss SS_DATABASE_SERVER=db SS_DATABASE_USERNAME=ss vendor/bin/phpunit
 
-
-- https://stackoverflow.com/questions/52699608/wand-policy-error-error-constitute-c-readimage-412
-- https://github.com/silverstripe/silverstripe-travis-support
-
-
 ## Disclaimer
 
 This extension is "simple" because it will just create a loose Image object.
