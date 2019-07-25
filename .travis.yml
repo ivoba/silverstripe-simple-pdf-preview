@@ -8,7 +8,7 @@ cache:
 
 env:
   global:
-     - MAGICK_CONFIGURE_PATH=$HOME/imagemagick
+     - MAGICK_CONFIGURE_PATH=$HOME/.config/ImageMagick/
 
 matrix:
     include:
@@ -20,12 +20,12 @@ matrix:
           env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_TEST=1
 
 before_script:
-    # Allow imagemagick to read PDF files for the scribing question tests.
-    - mkdir $HOME/imagemagick
+    # Allow imagemagick to read PDF files
     - echo $MAGICK_CONFIGURE_PATH
-    - echo '<policymap>' > $HOME/imagemagick/policy.xml
-    - echo '<policy domain="coder" rights="read|write" pattern="{PDF}" />' >> $HOME/imagemagick/policy.xml
-    - echo '</policymap>' >> $HOME/imagemagick/policy.xml
+    - mkdir $MAGICK_CONFIGURE_PATH
+    - echo '<policymap>' > $MAGICK_CONFIGURE_PATH/policy.xml
+    - echo '<policy domain="coder" rights="read" pattern="PDF" />' >> $MAGICK_CONFIGURE_PATH/policy.xml
+    - echo '</policymap>' >> $MAGICK_CONFIGURE_PATH/policy.xml
     - sudo rm /etc/ImageMagick-6/policy.xml
     # Init PHP
     - phpenv rehash
@@ -33,6 +33,8 @@ before_script:
     - pear config-set preferred_state beta
     - pecl channel-update pecl.php.net
     - yes | pecl install imagick
+
+    - echo convert -list policy
 
     # Install composer dependencies
     - composer validate
