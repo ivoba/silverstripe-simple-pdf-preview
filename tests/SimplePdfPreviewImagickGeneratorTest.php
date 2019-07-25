@@ -7,13 +7,13 @@ use SilverStripe\Dev\SapphireTest;
 
 class SimplePdfPreviewImagickGeneratorTest extends SapphireTest
 {
-    protected $saveTo = './pdf.jpg';
+    protected $saveTo = __FILE__.'/pdf.jpg';
 
     public function testGenerate()
     {
         $generator = new SimplePdfPreviewImagickGenerator();
 
-        $check = $generator->generatePreviewImage('./tests/pdf-test.pdf', $this->saveTo);
+        $check = $generator->generatePreviewImage(__FILE__.'/pdf-test.pdf', $this->saveTo);
 
         $this->assertInstanceOf(SimplePdfPreviewImagickGenerator::class, $generator);
         $this->assertTrue($check);
@@ -25,6 +25,5 @@ class SimplePdfPreviewImagickGeneratorTest extends SapphireTest
         parent::tearDown();
         unlink($this->saveTo);
     }
-
 
 }
