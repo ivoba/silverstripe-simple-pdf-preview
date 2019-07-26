@@ -13,17 +13,17 @@ class SimplePdfPreviewImagickGeneratorTest extends SapphireTest
     {
         $generator = new SimplePdfPreviewImagickGenerator();
 
-//        $check = $generator->generatePreviewImage(__DIR__.'/pdf-test.pdf', $this->saveTo);
+        $check = $generator->generatePreviewImage(__DIR__.'/pdf-test.pdf', $this->saveTo);
 
         $this->assertInstanceOf(SimplePdfPreviewImagickGenerator::class, $generator);
-//        $this->assertTrue($check);
-//        $this->assertTrue(file_exists($this->saveTo));
+        $this->assertTrue($check);
+        $this->assertTrue(file_exists($this->saveTo));
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
-//        unlink($this->saveTo);
+        unlink($this->saveTo);
     }
 
 }
