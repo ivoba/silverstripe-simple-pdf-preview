@@ -25,5 +25,4 @@ class SimplePdfPreviewImagickGeneratorTest extends SapphireTest
         parent::tearDown();
         unlink($this->saveTo);
     }
-
 }

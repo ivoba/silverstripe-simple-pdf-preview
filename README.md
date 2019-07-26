@@ -52,6 +52,8 @@ This could be the case, when we you dont want to use Imagick but ImageMagick dir
 
 ## Tests
 
+To run tests for bundle standalone:
+
 start the docker container:
 
     docker-compose run bash
