@@ -9,9 +9,9 @@ cache:
     directories:
         - $HOME/.composer/cache/files
 
-#env:
-#  global:
-#     - MAGICK_CONFIGURE_PATH=$HOME/.config/ImageMagick/
+env:
+  global:
+     - MAGICK_CONFIGURE_PATH=$HOME/.config/ImageMagick/
 
 matrix:
     include:
@@ -22,15 +22,23 @@ matrix:
         - php: 7.3
           env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_TEST=1
 
+before_install:
+  # Allow imagemagick to read PDF files
+  - echo $MAGICK_CONFIGURE_PATH
+  - mkdir $MAGICK_CONFIGURE_PATH
+  - echo '<policymap>' > $MAGICK_CONFIGURE_PATH/policy.xml
+  - echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> $MAGICK_CONFIGURE_PATH/policy.xml
+  - echo '</policymap>' >> $MAGICK_CONFIGURE_PATH/policy.xml
+  - sudo rm /etc/ImageMagick-6/policy.xml
+
 before_script:
     # Allow imagemagick to read PDF files
-#    - echo $MAGICK_CONFIGURE_PATH
-#    - mkdir $MAGICK_CONFIGURE_PATH
-#    - echo '<policymap>' > $MAGICK_CONFIGURE_PATH/policy.xml
-#    - echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> $MAGICK_CONFIGURE_PATH/policy.xml
-#    - echo '</policymap>' >> $MAGICK_CONFIGURE_PATH/policy.xml
-#    - sudo rm /etc/ImageMagick-6/policy.xml
-    - sudo wget -q -O /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/marriott-library/newspaper_works/7052ff3bf58022572870a0720d8c5a705090a833/config/vendor/imagemagick-6-policy.xml
+    - echo $MAGICK_CONFIGURE_PATH
+    - mkdir $MAGICK_CONFIGURE_PATH
+    - echo '<policymap>' > $MAGICK_CONFIGURE_PATH/policy.xml
+    - echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> $MAGICK_CONFIGURE_PATH/policy.xml
+    - echo '</policymap>' >> $MAGICK_CONFIGURE_PATH/policy.xml
+    - sudo rm /etc/ImageMagick-6/policy.xml
     # Init PHP
     - phpenv rehash
     - phpenv config-rm xdebug.ini

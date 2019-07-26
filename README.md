@@ -29,7 +29,7 @@ For SilverStripe 3 use v1.
 ## Usage
 In your template just call ```$Pdf.getPdfPreviewImage``` where $Pdf is your File Object, containing a pdf file.
 You then have a normal Image object, on which you can apply all methods you usually can apply on an image in SilverStripe.
-F.e.: ```$Pdf.getPdfPreviewImage.CroppedImage(60,60)```
+F.e.: ```$Pdf.getPdfPreviewImage.Fill(60,60)```
 
 If you call this method on a non-pdf file, null will be returned.
 
