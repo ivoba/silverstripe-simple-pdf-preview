@@ -37,8 +37,6 @@ before_script:
     - pecl channel-update pecl.php.net
     - yes | pecl install imagick
 
-    - convert -list policy
-
     # Install composer dependencies
     - composer validate
     - echo $INSTALLER_VERSION
