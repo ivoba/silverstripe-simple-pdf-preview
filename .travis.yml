@@ -40,7 +40,6 @@ before_script:
     # Install composer dependencies
     - composer validate
     - echo $INSTALLER_VERSION
-#    - composer require --no-update silverstripe/installer:$INSTALLER_VERSION
     - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
 
 script:
