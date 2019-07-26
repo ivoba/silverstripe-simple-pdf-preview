@@ -32,13 +32,6 @@ before_install:
   - sudo rm /etc/ImageMagick-6/policy.xml
 
 before_script:
-    # Allow imagemagick to read PDF files
-    - echo $MAGICK_CONFIGURE_PATH
-    - mkdir $MAGICK_CONFIGURE_PATH
-    - echo '<policymap>' > $MAGICK_CONFIGURE_PATH/policy.xml
-    - echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> $MAGICK_CONFIGURE_PATH/policy.xml
-    - echo '</policymap>' >> $MAGICK_CONFIGURE_PATH/policy.xml
-    - sudo rm /etc/ImageMagick-6/policy.xml
     # Init PHP
     - phpenv rehash
     - phpenv config-rm xdebug.ini
