@@ -38,6 +38,7 @@ before_script:
     - pear config-set preferred_state beta
     - pecl channel-update pecl.php.net
     - yes | pecl install imagick
+    - sudo apt-get install -y ghostscript
 
     # Install composer dependencies
     - composer validate

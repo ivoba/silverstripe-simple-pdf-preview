@@ -2,7 +2,7 @@ FROM php:7.1-cli
 
 RUN export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" &&\
     apt-get update &&\
-    apt-get install -y unzip libz-dev libxml2-dev ghostscript libmagickwand-dev git tar &&\
+    apt-get install -y unzip libz-dev libxml2-dev libmagickwand-dev git tar &&\
     rm -r /var/lib/apt/lists/* &&\
     pecl install imagick-3.4.3 &&\
     docker-php-ext-enable imagick
