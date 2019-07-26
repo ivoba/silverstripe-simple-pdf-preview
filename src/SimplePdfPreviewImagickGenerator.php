@@ -10,7 +10,6 @@ class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInter
     public function generatePreviewImage($pdfFile, $saveTo)
     {
         try {
-            var_dump(Director::getAbsFile($pdfFile));
             $img = new \imagick(Director::getAbsFile($pdfFile) . "[0]"); //we only take first page
 
             // -flatten option, this is necessary for images with transparency, it will produce white background for transparent regions
@@ -25,6 +24,7 @@ class SimplePdfPreviewImagickGenerator implements SimplePdfPreviewGeneratorInter
             //save image file
             $img->writeImages($saveTo, false);
         } catch (\Exception $e) {
+            var_dump($e);
             error_log($e->getMessage());
             return false;
         }
