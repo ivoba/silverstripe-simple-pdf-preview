@@ -57,7 +57,7 @@ To run tests for bundle standalone:
 
 start the docker container:
 
-    docker-compose run bash
+    docker-compose run php bash
 
 inside the container run:
 
