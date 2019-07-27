@@ -30,8 +30,9 @@ class SimplePdfPreviewImageExtension extends DataExtension
 
     public function getPdfPreviewImage()
     {
-        //$pdfFile = Director::getAbsFile($this->owner->getFileName());
-        $pdfFile  = Director::getAbsFile('assets/.protected/'.$this->owner->getMetaData()['path']);
+        $url = $this->owner->getUrl();
+        $url = ltrim($url, '/');
+        $pdfFile = Director::getAbsFile($url);
         $pathInfo = pathinfo($pdfFile);
         if (strtolower($pathInfo['extension']) != 'pdf') {
             //@Todo if dev then exception? else fail silently
@@ -45,7 +46,6 @@ class SimplePdfPreviewImageExtension extends DataExtension
         $filter    = FileNameFilter::create();
         $saveImage = $filter->filter($saveImage);
         $tmpFile   = tempnam("/tmp", "pdf");
-//        $saveTo = $savePath . $this->folderToSave . $saveImage;
 
         $image = DataObject::get_one(Image::class, "`Name` = '{$saveImage}'");
 
@@ -56,7 +56,7 @@ class SimplePdfPreviewImageExtension extends DataExtension
                     $image = new Image();
                     $image->setFromLocalFile($tmpFile, $saveImage);
                     $image->ParentID = $folderObject->ID;
-                    $image->setName($saveImage);
+                    $image->setFilename($saveImage);
                     $image->write();
                 }
             }

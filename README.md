@@ -39,12 +39,12 @@ You can override all Params in your config.yml.
 ``` yaml
 Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImageExtension:
   dependencies:
-    generator: %$SimplePdfPreviewExecGenerator
+    generator: %$Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImagickGenerator
     folderToSave: "assets/someOtherFolder/"
     imagePrefix: "pdf-foobar"
 
 Injector:
-  SimplePdfPreviewExecGenerator:
+  Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewImagickGenerator:
     class: Ivoba\SilverStripe\SimplePdfPreview\SimplePdfPreviewExecGenerator
 ```
 You can create your own Generator class, simply implement ```SimplePdfPreviewGeneratorInterface```.
