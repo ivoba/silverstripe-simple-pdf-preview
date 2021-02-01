@@ -21,6 +21,8 @@ matrix:
           env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_TEST=1
         - php: 7.3
           env: DB=MYSQL INSTALLER_VERSION=4.4.* PHPUNIT_TEST=1
+        - php: 7.4
+          env: DB=MYSQL INSTALLER_VERSION=4.7.* PHPUNIT_TEST=1
 
 before_install:
   # Allow imagemagick to read PDF files
