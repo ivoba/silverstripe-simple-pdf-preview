@@ -2,6 +2,7 @@
 
 namespace Ivoba\SilverStripe\SimplePdfPreview;
 
+use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Control\Director;
