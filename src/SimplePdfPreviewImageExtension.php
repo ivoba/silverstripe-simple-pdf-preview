@@ -34,9 +34,9 @@ class SimplePdfPreviewImageExtension extends DataExtension
         $url = ltrim($url, '/');
         $pdfFile = Director::getAbsFile($url);
         $pathInfo = pathinfo($pdfFile);
-        if (strtolower($pathInfo['extension']) != 'pdf') {
+        if (!isset($pathInfo['extension']) || strtolower($pathInfo['extension']) != 'pdf') {
             //@Todo if dev then exception? else fail silently
-            return null;
+            return File::create();
         }
         $fileName = $pathInfo['filename'];
 
