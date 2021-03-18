@@ -52,14 +52,12 @@ class SimplePdfPreviewImageExtension extends DataExtension
 
         if (!$image) {
             $folderObject = Folder::find_or_make($this->folderToSave);
-            if ($folderObject) {
-                if ($this->generator->generatePreviewImage($pdfFile, $tmpFile)) {
-                    $image = new Image();
-                    $image->setFromLocalFile($tmpFile, $saveImage);
-                    $image->ParentID = $folderObject->ID;
-                    $image->setFilename($saveImage);
-                    $image->write();
-                }
+            if ($this->generator->generatePreviewImage($pdfFile, $tmpFile)) {
+                $image = new Image();
+                $image->setFromLocalFile($tmpFile, $saveImage);
+                $image->ParentID = $folderObject->ID;
+                $image->setFilename($saveImage);
+                $image->write();
             }
         } else {
             //check LastEdited to update
