@@ -51,7 +51,7 @@ class SimplePdfPreviewImageExtension extends DataExtension
         $image = DataObject::get_one(Image::class, "`Name` = '{$saveImage}'");
 
         if (!$image) {
-            $folderObject = DataObject::get_one(Folder::class, "`Name` = '{$this->folderToSave}'");
+            $folderObject = Folder::find_or_make($this->folderToSave);
             if ($folderObject) {
                 if ($this->generator->generatePreviewImage($pdfFile, $tmpFile)) {
                     $image = new Image();
