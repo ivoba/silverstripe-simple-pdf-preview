@@ -12,7 +12,6 @@ use SilverStripe\Control\Director;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Image;
-use SilverStripe\Versioned\Versioned;
 
 class SimplePdfPreviewImageExtension extends DataExtension
 {
@@ -58,15 +57,13 @@ class SimplePdfPreviewImageExtension extends DataExtension
         $folderObject = Folder::find_or_make($this->folderToSave);
 
         if (!$image || !$image->exists()) {
-            if ($folderObject) {
-                if ($this->generator->generatePreviewImage($pdfFile, $tmpFile)) {
-                    $image = new Image();
-                    $image->setFromLocalFile($tmpFile,  $this->folderToSave . '/' .$saveImage);
-                    $image->ParentID = $folderObject->ID;
-                    $image->write();
-                    $image->publishRecursive();
-                    $this->generateThumbnails($image);
-                }
+            if ($this->generator->generatePreviewImage($pdfFile, $tmpFile)) {
+                $image = new Image();
+                $image->setFromLocalFile($tmpFile, $this->folderToSave . '/' .$saveImage);
+                $image->ParentID = $folderObject->ID;
+                $image->write();
+                $image->publishRecursive();
+                $this->generateThumbnails($image);
             }
         } else {
             //check LastEdited to update
