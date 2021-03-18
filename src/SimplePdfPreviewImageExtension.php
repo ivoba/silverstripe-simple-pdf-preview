@@ -7,11 +7,11 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Filesystem;
 use SilverStripe\Assets\Folder;
-use SilverStripe\ORM\DataExtension;
-use SilverStripe\Control\Director;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Image;
+use SilverStripe\Control\Director;
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DataObject;
 
 class SimplePdfPreviewImageExtension extends DataExtension
 {
