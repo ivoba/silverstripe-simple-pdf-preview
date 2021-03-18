@@ -2,13 +2,17 @@
 
 namespace Ivoba\SilverStripe\SimplePdfPreview;
 
+use SilverStripe\AssetAdmin\Controller\AssetAdmin;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\File;
+use SilverStripe\Assets\Filesystem;
 use SilverStripe\Assets\Folder;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Control\Director;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Image;
+use SilverStripe\Versioned\Versioned;
 
 class SimplePdfPreviewImageExtension extends DataExtension
 {
@@ -50,15 +54,18 @@ class SimplePdfPreviewImageExtension extends DataExtension
 
         $image = DataObject::get_one(Image::class, "`Name` = '{$saveImage}'");
 
-        if (!$image) {
-            $folderObject = Folder::find_or_make($this->folderToSave);
+        FileSystem::makeFolder('assets/' . $this->folderToSave);
+        $folderObject = Folder::find_or_make($this->folderToSave);
+
+        if (!$image || !$image->exists()) {
             if ($folderObject) {
                 if ($this->generator->generatePreviewImage($pdfFile, $tmpFile)) {
                     $image = new Image();
-                    $image->setFromLocalFile($tmpFile, $saveImage);
+                    $image->setFromLocalFile($tmpFile,  $this->folderToSave . '/' .$saveImage);
                     $image->ParentID = $folderObject->ID;
-                    $image->setFilename($saveImage);
                     $image->write();
+                    $image->publishRecursive();
+                    $this->generateThumbnails($image);
                 }
             }
         } else {
@@ -101,6 +108,22 @@ class SimplePdfPreviewImageExtension extends DataExtension
     public function setImagePrefix($imagePrefix)
     {
         $this->imagePrefix = $imagePrefix;
+    }
+
+    /**
+     * Generate thumbnails for use in the CMS
+     */
+    public function generateThumbnails($image)
+    {
+        $assetAdmin = AssetAdmin::singleton();
+        $image->FitMax(
+            $assetAdmin->config()->get('thumbnail_width'),
+            $assetAdmin->config()->get('thumbnail_height')
+        );
+        $image->FitMax(
+            UploadField::config()->uninherited('thumbnail_width'),
+            UploadField::config()->uninherited('thumbnail_height')
+        );
     }
 
 }
