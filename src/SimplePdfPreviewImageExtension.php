@@ -50,11 +50,7 @@ class SimplePdfPreviewImageExtension extends DataExtension
         $filter    = FileNameFilter::create();
         $saveImage = $filter->filter($saveImage);
         
-        $tmpDir = $_SERVER["DOCUMENT_ROOT"]."/tmp";
-        if (!file_exists($tmpDir)) {
-            mkdir($tmpDir, 0777, true);
-        }
-        $tmpFile   = tempnam($tmpDir, "pdf");
+        $tmpDir = tempnam(sys_get_temp_dir(), 'pdf');
 
         $image = DataObject::get_one(Image::class, "`Name` = '{$saveImage}'");
 
