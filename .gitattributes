@@ -6,3 +6,4 @@
 /.editorconfig export-ignore
 /docker-compose.yml export-ignore
 /phpunit.xml.dist export-ignore
+/.env export-ignore

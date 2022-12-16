@@ -49,7 +49,7 @@ class SimplePdfPreviewImageExtension extends DataExtension
         // Fix illegal characters
         $filter    = FileNameFilter::create();
         $saveImage = $filter->filter($saveImage);
-        
+
         $tmpDir = tempnam(sys_get_temp_dir(), 'pdf');
 
         $image = DataObject::get_one(Image::class, "`Name` = '{$saveImage}'");
@@ -58,9 +58,9 @@ class SimplePdfPreviewImageExtension extends DataExtension
         $folderObject = Folder::find_or_make($this->folderToSave);
 
         if (!$image || !$image->exists()) {
-            if ($this->generator->generatePreviewImage($pdfFile, $tmpFile)) {
+            if ($this->generator->generatePreviewImage($pdfFile, $tmpDir)) {
                 $image = new Image();
-                $image->setFromLocalFile($tmpFile, $this->folderToSave . '/' .$saveImage);
+                $image->setFromLocalFile($tmpDir, $this->folderToSave . '/' .$saveImage);
                 $image->ParentID = $folderObject->ID;
                 $image->write();
                 $image->publishRecursive();
@@ -73,13 +73,13 @@ class SimplePdfPreviewImageExtension extends DataExtension
                 $cacheInValid = true;
             }
             if ($cacheInValid) {
-                $this->generator->generatePreviewImage($pdfFile, $tmpFile);
+                $this->generator->generatePreviewImage($pdfFile, $tmpDir);
                 $image->setName($saveImage);
-                $image->setFromLocalFile($tmpFile, $saveImage);
+                $image->setFromLocalFile($tmpDir, $saveImage);
                 $image->write(false, false, true);
             }
         }
-        unlink($tmpFile);
+        unlink($tmpDir);
 
         return $image;
     }
