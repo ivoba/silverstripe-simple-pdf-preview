@@ -49,7 +49,8 @@ class SimplePdfPreviewImageExtension extends DataExtension
         // Fix illegal characters
         $filter    = FileNameFilter::create();
         $saveImage = $filter->filter($saveImage);
-        $tmpFile   = tempnam("/tmp", "pdf");
+        
+        $tmpDir = tempnam(sys_get_temp_dir(), 'pdf');
 
         $image = DataObject::get_one(Image::class, "`Name` = '{$saveImage}'");
 
