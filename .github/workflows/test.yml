@@ -1,6 +1,4 @@
-name: silverstripe-simple-pdf-preview
-
-name: CI
+name: CI silverstripe-simple-pdf-preview
 
 on:
   push:
