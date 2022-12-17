@@ -35,7 +35,6 @@ jobs:
           # each newline in the .env file
           cat << EOF > .env
           SS_DATABASE_CLASS="MySQLPDODatabase"
-          SS_DATABASE_PORT="3357"
           SS_DATABASE_SERVER="127.0.0.1"
           SS_DATABASE_USERNAME="root"
           SS_DATABASE_PASSWORD="root"

@@ -22,7 +22,7 @@ class SimplePdfPreviewImagickGeneratorTest extends SapphireTest
 
     protected function tearDown(): void
     {
-        parent::tearDown();
         unlink($this->saveTo);
+        parent::tearDown();
     }
 }
