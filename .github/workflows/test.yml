@@ -14,6 +14,8 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: ss
+          MYSQL_PASSWORD: ss
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: SS_mysite
     steps:
@@ -36,8 +38,8 @@ jobs:
           cat << EOF > .env
           SS_DATABASE_CLASS="MySQLPDODatabase"
           SS_DATABASE_SERVER="127.0.0.1"
-          SS_DATABASE_USERNAME="root"
-          SS_DATABASE_PASSWORD="root"
+          SS_DATABASE_USERNAME="ss"
+          SS_DATABASE_PASSWORD="ss"
           SS_DATABASE_NAME="SS_mysite"
           EOF
           # debug
