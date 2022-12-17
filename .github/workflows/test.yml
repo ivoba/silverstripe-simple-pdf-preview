@@ -57,21 +57,41 @@ jobs:
       - name: PHPUnit
         run: |
           php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-#  tests-php-8-0:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: imagick-preparations
-#        run: |
-#          sudo apt-get install -y ghostscript
-#      - uses: actions/checkout@v2
-#      - uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: '8.0'
-#          extensions: imagick
-#      - name: Allow imagick pdf
-#        run: |
-#          sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
-#      - name: PHPUnit
-#        run: |
-#          composer install --prefer-dist --no-interaction --no-ansi --no-progress
-#          php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  tests-php-8-0:
+    runs-on: ubuntu-latest
+    steps:
+      - name: imagick-preparations
+        run: |
+          sudo apt-get install -y ghostscript
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: imagick
+      - name: Allow imagick pdf
+        run: |
+          sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+      - name: composer install
+        run: |
+          composer install --prefer-dist --no-interaction --no-ansi --no-progress
+      - name: env file
+        run: |
+          # Add .env file and create artifacts directory
+          # Note: the wonky indentation is intentional so there is no space at the start of
+          # each newline in the .env file
+          cat << EOF > .env
+          SS_DATABASE_CLASS="MySQLPDODatabase"
+          SS_DATABASE_SERVER="127.0.0.1"
+          SS_DATABASE_PORT="3357"
+          SS_DATABASE_USERNAME="ss"
+          SS_DATABASE_PASSWORD="ss"
+          SS_DATABASE_NAME="SS_mysite"
+          EOF
+          # debug
+          echo ".env is"
+          cat .env
+          # dev/build
+          vendor/bin/sake dev/build flush=1
+      - name: PHPUnit
+        run: |
+          php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
