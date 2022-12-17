@@ -59,6 +59,18 @@ jobs:
           php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
   tests-php-8-0:
     runs-on: ubuntu-latest
+    services:
+      mysql57:
+        image: mysql:5.7
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: ss
+          MYSQL_PASSWORD: ss
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: SS_mysite
+        ports:
+          - 3357:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
     steps:
       - name: imagick-preparations
         run: |
