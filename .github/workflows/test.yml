@@ -36,7 +36,11 @@ jobs:
           SS_DATABASE_SERVER="127.0.0.1"
           SS_DATABASE_USERNAME="root"
           SS_DATABASE_PASSWORD="root"
+          SS_DATABASE_NAME="SS_mysite
           EOF
+          # debug
+          echo ".env is"
+          cat .env
       - name: PHPUnit
         run: |
           composer install --prefer-dist --no-interaction --no-ansi --no-progress
