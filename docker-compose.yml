@@ -2,8 +2,8 @@ version: '3'
 
 services:
   php:
-    build: docker/php71-dev
-    container_name: ss-pdf-7.1
+    build: docker/php74-dev
+    container_name: ss-pdf-7.4
     depends_on:
       - db
     ports:

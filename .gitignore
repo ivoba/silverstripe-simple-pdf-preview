@@ -3,3 +3,4 @@ composer.lock
 vendor
 resources
 assets
+.phpunit.result.cache
