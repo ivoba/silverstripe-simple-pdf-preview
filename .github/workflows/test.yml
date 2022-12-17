@@ -30,6 +30,9 @@ jobs:
       - name: Allow imagick pdf
         run: |
           sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+      - name: composer install
+        run: |
+          composer install --prefer-dist --no-interaction --no-ansi --no-progress
       - name: env file
         run: |
           # Add .env file and create artifacts directory
@@ -49,23 +52,22 @@ jobs:
           vendor/bin/sake dev/build flush=1
       - name: PHPUnit
         run: |
-          composer install --prefer-dist --no-interaction --no-ansi --no-progress
           php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-  tests-php-8-0:
-    runs-on: ubuntu-latest
-    steps:
-      - name: imagick-preparations
-        run: |
-          sudo apt-get install -y ghostscript
-      - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          extensions: imagick
-      - name: Allow imagick pdf
-        run: |
-          sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
-      - name: PHPUnit
-        run: |
-          composer install --prefer-dist --no-interaction --no-ansi --no-progress
-          php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+#  tests-php-8-0:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: imagick-preparations
+#        run: |
+#          sudo apt-get install -y ghostscript
+#      - uses: actions/checkout@v2
+#      - uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: '8.0'
+#          extensions: imagick
+#      - name: Allow imagick pdf
+#        run: |
+#          sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+#      - name: PHPUnit
+#        run: |
+#          composer install --prefer-dist --no-interaction --no-ansi --no-progress
+#          php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
