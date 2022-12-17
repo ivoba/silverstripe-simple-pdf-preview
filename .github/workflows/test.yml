@@ -52,8 +52,6 @@ jobs:
           # debug
           echo ".env is"
           cat .env
-          # dev/build
-          vendor/bin/sake dev/build flush=1
       - name: PHPUnit
         run: |
           php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
