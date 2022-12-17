@@ -18,7 +18,9 @@ jobs:
           MYSQL_PASSWORD: ss
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: SS_mysite
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        ports:
+          - 3357:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
     steps:
       - name: imagick-preparations
         run: |
@@ -42,6 +44,7 @@ jobs:
           cat << EOF > .env
           SS_DATABASE_CLASS="MySQLPDODatabase"
           SS_DATABASE_SERVER="127.0.0.1"
+          SS_DATABASE_PORT="3357"
           SS_DATABASE_USERNAME="ss"
           SS_DATABASE_PASSWORD="ss"
           SS_DATABASE_NAME="SS_mysite"
