@@ -9,6 +9,13 @@ on:
 jobs:
   tests-php-7-4:
     runs-on: ubuntu-latest
+    services:
+      mysql57:
+        image: mysql:5.7
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: SS_mysite
     steps:
       - name: imagick-preparations
         run: |
@@ -18,6 +25,18 @@ jobs:
         with:
           php-version: '7.4'
           extensions: imagick
+      - name: env file
+        run: |
+          # Add .env file and create artifacts directory
+          # Note: the wonky indentation is intentional so there is no space at the start of
+          # each newline in the .env file
+          cat << EOF > .env
+          SS_DATABASE_CLASS="MySQLPDODatabase"
+          SS_DATABASE_PORT="3357"
+          SS_DATABASE_SERVER="127.0.0.1"
+          SS_DATABASE_USERNAME="root"
+          SS_DATABASE_PASSWORD="root"
+          EOF
       - name: PHPUnit
         run: |
           composer install --prefer-dist --no-interaction --no-ansi --no-progress
