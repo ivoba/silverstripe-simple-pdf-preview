@@ -3,7 +3,6 @@ silverstripe-simple-pdf-preview
 
 Simple Pdf Preview Extension for SilverStripe CMS
 
-[![Build Status](http://img.shields.io/travis/ivoba/silverstripe-simple-pdf-preview.svg)](https://travis-ci.org/ivoba/silverstripe-simple-pdf-preview)
 [![Total Downloads](https://poser.pugx.org/ivoba/silverstripe-simple-pdf-preview/downloads.png)](https://packagist.org/packages/ivoba/silverstripe-simple-pdf-preview)
 
 Create Jpg Preview Images of Pdf files on the fly.
