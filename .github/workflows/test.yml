@@ -138,7 +138,7 @@ jobs:
             # Note: the wonky indentation is intentional so there is no space at the start of
             # each newline in the .env file
             cat << EOF > .env
-            SS_DATABASE_CLASS="MySQLPDODatabase"
+            SS_DATABASE_CLASS="MySQLDatabase"
             SS_DATABASE_SERVER="127.0.0.1"
             SS_DATABASE_PORT="3357"
             SS_DATABASE_USERNAME="ss"
