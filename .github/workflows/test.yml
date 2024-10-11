@@ -25,7 +25,7 @@ jobs:
       - name: imagick-preparations
         run: |
           sudo apt-get install -y ghostscript
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
@@ -73,7 +73,7 @@ jobs:
       - name: imagick-preparations
         run: |
           sudo apt-get install -y ghostscript
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
@@ -103,3 +103,51 @@ jobs:
       - name: PHPUnit
         run: |
           php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  tests-php-8-2:
+      runs-on: ubuntu-latest
+      services:
+        mysql57:
+          image: mysql:8
+          env:
+            MYSQL_HOST: 127.0.0.1
+            MYSQL_USER: ss
+            MYSQL_PASSWORD: ss
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: SS_mysite
+          ports:
+            - 3357:3306
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
+      steps:
+        - name: imagick-preparations
+          run: |
+            sudo apt-get install -y ghostscript
+        - uses: actions/checkout@v4
+        - uses: shivammathur/setup-php@v2
+          with:
+            php-version: '8.2'
+            extensions: imagick
+        - name: Allow imagick pdf
+          run: |
+            sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+        - name: composer install
+          run: |
+            composer install --prefer-dist --no-interaction --no-ansi --no-progress
+        - name: env file
+          run: |
+            # Add .env file and create artifacts directory
+            # Note: the wonky indentation is intentional so there is no space at the start of
+            # each newline in the .env file
+            cat << EOF > .env
+            SS_DATABASE_CLASS="MySQLPDODatabase"
+            SS_DATABASE_SERVER="127.0.0.1"
+            SS_DATABASE_PORT="3357"
+            SS_DATABASE_USERNAME="ss"
+            SS_DATABASE_PASSWORD="ss"
+            SS_DATABASE_NAME="SS_mysite"
+            EOF
+            # debug
+            echo ".env is"
+            cat .env
+        - name: PHPUnit
+          run: |
+            php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
