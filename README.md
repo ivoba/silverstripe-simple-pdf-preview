@@ -21,9 +21,10 @@ Via Composer
 ```
 
 ## Requirements
-- SilverStripe 5 or 6
+- SilverStripe 5
 - you will need the Imagick extension.
 
+For SilverStripe 4 use v2.4.
 For SilverStripe 3 use v1.
 
 ## Usage
