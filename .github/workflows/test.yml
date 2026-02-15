@@ -7,20 +7,51 @@ on:
       - master
 
 jobs:
-  tests-php-7-4:
+  tests:
+    name: PHP ${{ matrix.php }} - SS ${{ matrix.silverstripe }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+        silverstripe: ['4', '5', '6']
+        include:
+          - php: '7.4'
+            mysql: '5.7'
+          - php: '8.0'
+            mysql: '5.7'
+          - php: '8.1'
+            mysql: '8.0'
+          - php: '8.2'
+            mysql: '8.0'
+          - php: '8.3'
+            mysql: '8.0'
+          - php: '8.4'
+            mysql: '8.0'
+        exclude:
+          - php: '7.4'
+            silverstripe: '5'
+          - php: '7.4'
+            silverstripe: '6'
+          - php: '8.0'
+            silverstripe: '5'
+          - php: '8.0'
+            silverstripe: '6'
+          - php: '8.1'
+            silverstripe: '6'
+          - php: '8.4'
+            silverstripe: '4'
+
     services:
-      mysql57:
-        image: mysql:5.7
+      mysql:
+        image: mysql:${{ matrix.mysql }}
         env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: ss
-          MYSQL_PASSWORD: ss
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: SS_mysite
         ports:
-          - 3357:3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
+
     steps:
       - name: imagick-preparations
         run: |
@@ -28,126 +59,34 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
-          extensions: imagick
+          php-version: ${{ matrix.php }}
+          extensions: imagick, mysql
+          coverage: none
       - name: Allow imagick pdf
         run: |
-          sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+          sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml || sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-7/policy.xml
+      - name: Install SilverStripe ${{ matrix.silverstripe }}
+        run: |
+          if [ "${{ matrix.silverstripe }}" == "4" ]; then
+            composer require "silverstripe/framework:^4" "silverstripe/asset-admin:^1" --no-update --prefer-dist
+          elif [ "${{ matrix.silverstripe }}" == "5" ]; then
+            composer require "silverstripe/framework:^5" "silverstripe/asset-admin:^2" --no-update --prefer-dist
+          elif [ "${{ matrix.silverstripe }}" == "6" ]; then
+            composer require "silverstripe/framework:^6" "silverstripe/asset-admin:^3" --no-update --prefer-dist
+          fi
       - name: composer install
         run: |
           composer install --prefer-dist --no-interaction --no-ansi --no-progress
       - name: env file
         run: |
-          # Add .env file and create artifacts directory
-          # Note: the wonky indentation is intentional so there is no space at the start of
-          # each newline in the .env file
           cat << EOF > .env
-          SS_DATABASE_CLASS="MySQLPDODatabase"
+          SS_DATABASE_CLASS="MySQLDatabase"
           SS_DATABASE_SERVER="127.0.0.1"
-          SS_DATABASE_PORT="3357"
-          SS_DATABASE_USERNAME="ss"
-          SS_DATABASE_PASSWORD="ss"
+          SS_DATABASE_PORT="3306"
+          SS_DATABASE_USERNAME="root"
+          SS_DATABASE_PASSWORD="root"
           SS_DATABASE_NAME="SS_mysite"
           EOF
-          # debug
-          echo ".env is"
-          cat .env
       - name: PHPUnit
         run: |
-          php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-  tests-php-8-0:
-    runs-on: ubuntu-latest
-    services:
-      mysql57:
-        image: mysql:5.7
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_USER: ss
-          MYSQL_PASSWORD: ss
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: SS_mysite
-        ports:
-          - 3357:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
-    steps:
-      - name: imagick-preparations
-        run: |
-          sudo apt-get install -y ghostscript
-      - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          extensions: imagick
-      - name: Allow imagick pdf
-        run: |
-          sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
-      - name: composer install
-        run: |
-          composer install --prefer-dist --no-interaction --no-ansi --no-progress
-      - name: env file
-        run: |
-          # Add .env file and create artifacts directory
-          # Note: the wonky indentation is intentional so there is no space at the start of
-          # each newline in the .env file
-          cat << EOF > .env
-          SS_DATABASE_CLASS="MySQLPDODatabase"
-          SS_DATABASE_SERVER="127.0.0.1"
-          SS_DATABASE_PORT="3357"
-          SS_DATABASE_USERNAME="ss"
-          SS_DATABASE_PASSWORD="ss"
-          SS_DATABASE_NAME="SS_mysite"
-          EOF
-          # debug
-          echo ".env is"
-          cat .env
-      - name: PHPUnit
-        run: |
-          php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-  tests-php-8-2:
-      runs-on: ubuntu-latest
-      services:
-        mysql57:
-          image: mysql:8
-          env:
-            MYSQL_HOST: 127.0.0.1
-            MYSQL_USER: ss
-            MYSQL_PASSWORD: ss
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: SS_mysite
-          ports:
-            - 3357:3306
-          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
-      steps:
-        - name: imagick-preparations
-          run: |
-            sudo apt-get install -y ghostscript
-        - uses: actions/checkout@v4
-        - uses: shivammathur/setup-php@v2
-          with:
-            php-version: '8.2'
-            extensions: imagick
-        - name: Allow imagick pdf
-          run: |
-            sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
-        - name: composer install
-          run: |
-            composer install --prefer-dist --no-interaction --no-ansi --no-progress
-        - name: env file
-          run: |
-            # Add .env file and create artifacts directory
-            # Note: the wonky indentation is intentional so there is no space at the start of
-            # each newline in the .env file
-            cat << EOF > .env
-            SS_DATABASE_CLASS="MySQLDatabase"
-            SS_DATABASE_SERVER="127.0.0.1"
-            SS_DATABASE_PORT="3357"
-            SS_DATABASE_USERNAME="ss"
-            SS_DATABASE_PASSWORD="ss"
-            SS_DATABASE_NAME="SS_mysite"
-            EOF
-            # debug
-            echo ".env is"
-            cat .env
-        - name: PHPUnit
-          run: |
-            php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+          vendor/bin/phpunit
