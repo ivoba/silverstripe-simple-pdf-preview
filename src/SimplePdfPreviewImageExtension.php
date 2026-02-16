@@ -10,10 +10,10 @@ use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\DataObject;
 
-class SimplePdfPreviewImageExtension extends DataExtension
+class SimplePdfPreviewImageExtension extends Extension
 {
 
     private $generator;
