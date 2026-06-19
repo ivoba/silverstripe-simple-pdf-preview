@@ -74,7 +74,7 @@ class SimplePdfPreviewImageExtension extends Extension
             }
             if ($cacheInValid) {
                 $this->generator->generatePreviewImage($pdfFile, $tmpDir);
-                $image->setName($saveImage);
+                $image->Name = $saveImage;
                 $image->setFromLocalFile($tmpDir, $saveImage);
                 $image->write(false, false, true);
             }
